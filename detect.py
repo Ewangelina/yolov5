@@ -258,6 +258,6 @@ def main(opt):
 
 if __name__ == '__main__':
     LOGGER.info("hello from logger")
-    print("hello from print")
+    print("different hello from print")
     opt = parse_opt()
     main(opt)
