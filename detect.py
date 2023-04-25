@@ -257,7 +257,6 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    LOGGER.info(f"Results hello from complex logger to {colorstr('bold', save_dir)}{s}")
     LOGGER.info("hello from logger")
     print("hello from print")
     opt = parse_opt()
