@@ -35,10 +35,6 @@ def analiseLine(textLine, frame):
             hasStarted = True
         if h == -1:
             h, w = frame.shape[0], frame.shape[1]
-        # if isShown:
-          #   cv2.imshow('Frame', frame)  # TODO FIX
-        print(textLine)
-        print(f"------{frame.shape}")
         make_snippet(frame)
     else:
         if hasStarted:
@@ -48,7 +44,7 @@ def make_snippet(frame_of_video):
     global w, h, output_video_fps, current_snippet
 
     if current_snippet is None:
-        current_snippet  = snippet_maker(SNIPPETS_FOLDER_NAME, 5, cv2.VideoWriter_fourcc(*'mp4v'), w, h, output_video_fps)
+        current_snippet = snippet_maker(SNIPPETS_FOLDER_NAME, 0, cv2.VideoWriter_fourcc(*'mp4v'), w, h, output_video_fps)
     current_snippet.write(frame_of_video)
 
 def end_snippet():
