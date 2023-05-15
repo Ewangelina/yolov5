@@ -1,10 +1,10 @@
 DETECTION_ACTION = 0
-current_snippet = -1
+current_snippet = None
 SNIPPETS_FOLDER_NAME = "snippets"
 w = -1
 h = -1
 output_video_fps = 30
-
+hasStarted = False
 isShown = True
 
 import time
@@ -20,16 +20,6 @@ def time_to_string(seconds):
     return "%d.%02d.%02d" % (hour, minutes, seconds)
 
 
-def extract_frame_size(s):
-    # Extract the frame size from the string using regular expressions
-    pattern = r'(\d+)x(\d+)'
-    match = re.search(pattern, s)
-    if match:
-        return int(match.group(1)), int(match.group(2))
-    else:
-        return None
-
-
 def snippet_maker(SNIPPETS_FOLDER_NAME, start_time, fourcc_snippet, width, height, output_video_fps):
     filename = SNIPPETS_FOLDER_NAME + "/"
 
@@ -38,19 +28,31 @@ def snippet_maker(SNIPPETS_FOLDER_NAME, start_time, fourcc_snippet, width, heigh
     return snippet
 
 def analiseLine(textLine, frame):
-    global SNIPPETS_FOLDER_NAME, h, w
+    global SNIPPETS_FOLDER_NAME, h, w, hasStarted
 
     if "motorcycle" in textLine:
+        if not hasStarted:
+            hasStarted = True
         if h == -1:
-            h, w = extract_frame_size(textLine)
-        if isShown:
-            cv2.imshow('Frame', frame)  # TODO FIX
+            h, w = frame.shape[0], frame.shape[1]
+        # if isShown:
+          #   cv2.imshow('Frame', frame)  # TODO FIX
         print(textLine)
+        print(f"------{frame.shape}")
         make_snippet(frame)
+    else:
+        if hasStarted:
+            end_snippet()
 
 def make_snippet(frame_of_video):
-    global current_snippet, w, h, output_video_fps
+    global w, h, output_video_fps, current_snippet
 
-    if current_snippet == -1:
-        current_snippet  = snippet_maker(SNIPPETS_FOLDER_NAME, 0, cv2.VideoWriter_fourcc(*'mp4v'), w, h, output_video_fps)
+    if current_snippet is None:
+        current_snippet  = snippet_maker(SNIPPETS_FOLDER_NAME, 5, cv2.VideoWriter_fourcc(*'mp4v'), w, h, output_video_fps)
     current_snippet.write(frame_of_video)
+
+def end_snippet():
+    global current_snippet, hasStarted
+    print(f"Saving {current_snippet}")
+    current_snippet.release()
+    hasStarted = False
