@@ -3,6 +3,7 @@ current_snippet = None
 SNIPPETS_FOLDER_NAME = "snippets"
 w = -1
 h = -1
+#delete w and h
 output_video_fps = 30
 hasStarted = False
 isShown = True
@@ -24,6 +25,7 @@ def snippet_maker(SNIPPETS_FOLDER_NAME, start_time, fourcc_snippet, width, heigh
     filename = SNIPPETS_FOLDER_NAME + "/"
 
     filename = filename + time_to_string(time.time() - start_time) + ".mp4"
+    #change filename to reflect real time
     snippet = cv2.VideoWriter(filename, fourcc_snippet, output_video_fps, (width, height))
     return snippet
 
@@ -44,7 +46,7 @@ def make_snippet(frame_of_video):
     global w, h, output_video_fps, current_snippet
 
     if current_snippet is None:
-        current_snippet = snippet_maker(SNIPPETS_FOLDER_NAME, 0, cv2.VideoWriter_fourcc(*'mp4v'), w, h, output_video_fps)
+        current_snippet = snippet_maker(SNIPPETS_FOLDER_NAME, 0, cv2.VideoWriter_fourcc(*'mp4v'), frame.shape[1], frame.shape[0], output_video_fps)
     current_snippet.write(frame_of_video)
 
 def end_snippet():
