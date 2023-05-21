@@ -1,4 +1,4 @@
-import email
+import mail
 import snippets
 
 from datetime import datetime
@@ -16,7 +16,7 @@ def analise_line(textLine):
 
 def continue_action(frame):
     if option % 3 == 0: #make snippet
-        snippets.make_snippet(frame, video)
+        snippets.make_snippet(frame)
     
 
 def take_action(frame):
@@ -33,7 +33,7 @@ def take_action(frame):
     if option % 5 == 0: #send email
         now = datetime.now()
         body = now.strftime("%d.%m.%Y at %H:%M:%S") + "a motorcycle was detected"
-        email.send_email("Motorcycle detection", body, "235842@edu.p.lodz.pl")
+        mail.send_email("Motorcycle detection", body, "235842@edu.p.lodz.pl")
 
 def end_action():
     global taking_action

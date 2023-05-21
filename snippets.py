@@ -21,7 +21,7 @@ def snippet_maker(SNIPPETS_FOLDER_NAME, fourcc_snippet, width, height, output_vi
     snippet = cv2.VideoWriter(filename, fourcc_snippet, output_video_fps, (width, height))
     return snippet
 
-def make_snippet(frame_of_video, video):
+def make_snippet(frame_of_video):
     global current_snippet
     
     if current_snippet is None:

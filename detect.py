@@ -82,6 +82,7 @@ def run(
         dnn=False,  # use OpenCV DNN for ONNX inference
         vid_stride=1,  # video frame-rate stride
 ):
+    frameToSave = None
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
     is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
@@ -117,6 +118,7 @@ def run(
     model.warmup(imgsz=(1 if pt or model.triton else bs, 3, *imgsz))  # warmup
     seen, windows, dt = 0, [], (Profile(), Profile(), Profile())
     for path, im, im0s, vid_cap, s in dataset:
+        frameToSave = im0s
         with dt[0]:
             im = torch.from_numpy(im).to(model.device)
             im = im.half() if model.fp16 else im.float()  # uint8 to fp16/32
@@ -208,9 +210,9 @@ def run(
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
         if (action.analise_line(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")):
-            actions.take_action(frameToSave)
+            action.take_action(frameToSave)
         else:
-            actions.end_action()
+            action.end_action()
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
@@ -265,6 +267,6 @@ def main(opt):
 if __name__ == '__main__':
     LOGGER.info("hello from logger version 2")
     print("hello from print")
-    actions.set_option(1)
+    action.set_option(1)
     opt = parse_opt()
     main(opt)

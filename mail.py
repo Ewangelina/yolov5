@@ -1,3 +1,5 @@
+import smtplib
+
 already_sent = False
 
 def send_email(subject, body, recipient):
