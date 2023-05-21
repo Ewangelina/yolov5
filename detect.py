@@ -71,7 +71,7 @@ def run(
         visualize=False,  # visualize features
         update=False,  # update all models
         project=ROOT / 'runs/detect',  # save results to project/name
-        name='exp',  # save results to project/name
+        name='snippets',  # save results to project/name
         exist_ok=False,  # existing project/name ok, do not increment
         line_thickness=3,  # bounding box thickness (pixels)
         hide_labels=False,  # hide labels
@@ -205,6 +205,10 @@ def run(
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
+        if (action.analise_line(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms"):
+            actions.take_action(frameToSave)
+        else:
+            actions.end_action()
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
@@ -259,5 +263,6 @@ def main(opt):
 if __name__ == '__main__':
     LOGGER.info("hello from logger version 2")
     print("hello from print")
+    actions.set_option(1)
     opt = parse_opt()
     main(opt)
