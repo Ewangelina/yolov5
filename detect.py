@@ -261,7 +261,13 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    LOGGER.info("hello from logger version 2")
-    print("hello from print")
+    f = open("one.txt", 'w')
+    f.write("text")
+    f.close()
+    f = open("snippets/two.txt", 'w')
+    f.write("text2")
+    f.close()
+    #os.mkdir("snippets")
+    #print(os.getcwd())
     opt = parse_opt()
     main(opt)

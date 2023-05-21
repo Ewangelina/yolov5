@@ -8,23 +8,23 @@ output_video_fps = 30
 hasStarted = False
 isShown = True
 
-import time
+from datetime import datetime
 import cv2
 import re
+import numpy
 
-def time_to_string(seconds):
-    seconds = seconds % (24 * 3600)
-    hour = seconds // 3600
-    seconds %= 3600
-    minutes = seconds // 60
-    seconds %= 60
-    return "%d.%02d.%02d" % (hour, minutes, seconds)
-
+def time_to_string():
+    now = datetime.now()
+    return now.strftime("%Y%d%m %H%M%S")
 
 def snippet_maker(SNIPPETS_FOLDER_NAME, start_time, fourcc_snippet, width, height, output_video_fps):
     filename = SNIPPETS_FOLDER_NAME + "/"
+    temp = filename + time_to_string() + ".txt"
+    f = open(temp, 'w')
+    f.write("text2")
+    f.close()
 
-    filename = filename + time_to_string(time.time() - start_time) + ".mp4"
+    filename = filename + time_to_string() + ".mp4"
     #change filename to reflect real time
     snippet = cv2.VideoWriter(filename, fourcc_snippet, output_video_fps, (width, height))
     return snippet
@@ -36,7 +36,7 @@ def analiseLine(textLine, frame):
         if not hasStarted:
             hasStarted = True
         if h == -1:
-            h, w = frame.shape[0], frame.shape[1]
+            h, w = len(frame), len(frame[0])
         make_snippet(frame)
     else:
         if hasStarted:
@@ -46,8 +46,8 @@ def make_snippet(frame_of_video):
     global w, h, output_video_fps, current_snippet
 
     if current_snippet is None:
-        current_snippet = snippet_maker(SNIPPETS_FOLDER_NAME, 0, cv2.VideoWriter_fourcc(*'mp4v'), frame.shape[1], frame.shape[0], output_video_fps)
-    current_snippet.write(frame_of_video)
+        current_snippet = snippet_maker(SNIPPETS_FOLDER_NAME, 0, cv2.VideoWriter_fourcc(*'mp4v'), w, h, output_video_fps)
+    current_snippet.write(numpy.asarray(frame_of_video))
 
 def end_snippet():
     global current_snippet, hasStarted
