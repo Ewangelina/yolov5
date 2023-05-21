@@ -18,7 +18,6 @@ def send_email(subject, body, recipient):
         server.sendmail(sender, recipient, message)
         print("E-mail został wysłany!")
         already_sent = True
-    except Exception as e:
-        print("Wystąpił błąd podczas wysyłania e-maila:", str(e))
-    finally:
         server.quit()
+    except Exception as e:
+        print("Wystąpił błąd podczas wysyłania e-maila: ", str(e))

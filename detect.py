@@ -27,7 +27,6 @@ Usage - formats:
                                  yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
                                  yolov5s_paddle_model       # PaddlePaddle
 """
-
 import action
 
 import argparse
@@ -267,6 +266,6 @@ def main(opt):
 if __name__ == '__main__':
     LOGGER.info("hello from logger version 2")
     print("hello from print")
-    action.set_option(1)
+    action.set_option(15)
     opt = parse_opt()
     main(opt)

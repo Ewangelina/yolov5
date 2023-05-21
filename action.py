@@ -12,7 +12,7 @@ def set_option(new_option):
 
 def analise_line(textLine):
     if "motorcycle" in textLine:
-        return true
+        return True
 
 def continue_action(frame):
     if option % 3 == 0: #make snippet
