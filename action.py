@@ -1,3 +1,6 @@
+import email
+import snippets
+
 from datetime import datetime
 
 taking_action = False

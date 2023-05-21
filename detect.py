@@ -28,6 +28,8 @@ Usage - formats:
                                  yolov5s_paddle_model       # PaddlePaddle
 """
 
+import actions
+
 import argparse
 import os
 import platform
