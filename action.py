@@ -37,7 +37,7 @@ def take_action(frame):
 
 def end_action():
     global taking_action
-    if !taking_action:
+    if not taking_action:
         return
     
     taking_action = False
