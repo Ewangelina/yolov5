@@ -36,7 +36,7 @@ import sys
 from pathlib import Path
 
 import torch
-
+import cv2
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -264,8 +264,6 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    LOGGER.info("hello from logger version 2")
-    print("hello from print")
     action.set_option(15)
     opt = parse_opt()
     main(opt)

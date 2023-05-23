@@ -8,7 +8,7 @@ def send_email(subject, body, recipient):
         return
 
     sender = 'projekt.test17@gmail.com'
-    password = ''
+    password = 'armflaxmppnjnggx'
     message = f'Subject: {subject}\n\n{body}'
 
     try:
