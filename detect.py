@@ -27,6 +27,7 @@ Usage - formats:
                                  yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
                                  yolov5s_paddle_model       # PaddlePaddle
 """
+import action
 
 import argparse
 import os
@@ -35,7 +36,7 @@ import sys
 from pathlib import Path
 
 import torch
-
+import cv2
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -71,7 +72,7 @@ def run(
         visualize=False,  # visualize features
         update=False,  # update all models
         project=ROOT / 'runs/detect',  # save results to project/name
-        name='exp',  # save results to project/name
+        name='snippets',  # save results to project/name
         exist_ok=False,  # existing project/name ok, do not increment
         line_thickness=3,  # bounding box thickness (pixels)
         hide_labels=False,  # hide labels
@@ -80,6 +81,7 @@ def run(
         dnn=False,  # use OpenCV DNN for ONNX inference
         vid_stride=1,  # video frame-rate stride
 ):
+    frameToSave = None
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
     is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
@@ -115,6 +117,7 @@ def run(
     model.warmup(imgsz=(1 if pt or model.triton else bs, 3, *imgsz))  # warmup
     seen, windows, dt = 0, [], (Profile(), Profile(), Profile())
     for path, im, im0s, vid_cap, s in dataset:
+        frameToSave = im0s
         with dt[0]:
             im = torch.from_numpy(im).to(model.device)
             im = im.half() if model.fp16 else im.float()  # uint8 to fp16/32
@@ -205,6 +208,10 @@ def run(
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
+        if (action.analise_line(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")):
+            action.take_action(frameToSave)
+        else:
+            action.end_action()
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
@@ -257,7 +264,6 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    LOGGER.info("hello from logger version 2")
-    print("hello from print")
+    action.set_option(15)
     opt = parse_opt()
     main(opt)
