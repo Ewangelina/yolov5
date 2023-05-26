@@ -28,6 +28,7 @@ Usage - formats:
                                  yolov5s_paddle_model       # PaddlePaddle
 """
 import action
+import statistics
 
 import argparse
 import os
@@ -208,7 +209,7 @@ def run(
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
-        if (action.analise_line(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")):
+        if (statistics.analise_line(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")):
             action.take_action(frameToSave)
         else:
             action.end_action()
@@ -243,8 +244,8 @@ def parse_opt():
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--visualize', action='store_true', help='visualize features')
     parser.add_argument('--update', action='store_true', help='update all models')
-    parser.add_argument('--project', default=ROOT / 'runs/detect', help='save results to project/name')
-    parser.add_argument('--name', default='exp', help='save results to project/name')
+    parser.add_argument('--project', default=ROOT, help='save results to project/name')
+    parser.add_argument('--name', default='snippets', help='save results to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--line-thickness', default=3, type=int, help='bounding box thickness (pixels)')
     parser.add_argument('--hide-labels', default=False, action='store_true', help='hide labels')
@@ -265,5 +266,6 @@ def main(opt):
 
 if __name__ == '__main__':
     action.set_option(15)
+    statistics.init_statistics()
     opt = parse_opt()
     main(opt)
