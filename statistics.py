@@ -30,8 +30,10 @@ def mpm(seconds, motorcycles):
     return str(motorcycles / minutes)
 
 def motorcycles_exited_action():
+    global max_no_motorcycles_in_current_detection
     line = time.strftime("%d.%m %H:%M:%S", time.localtime()) + " Noted at least " + str(max_no_motorcycles_in_current_detection) + " motorcycle(s)\n"
     file.write(line)
+    max_no_motorcycles_in_current_detection = 0
 
 def end_statistics():
     end_time = int(time.time())
@@ -60,7 +62,6 @@ def analise_line(textLine): #returns True if there are motorcycles in frame
         else:
             prev_prev_no_motorcycles = prev_no_motorcycles
             prev_no_motorcycles = 0
-            max_no_motorcycles_in_current_detection = 0
         return False
     else: #there are motorcycles
         no_motorcycles = int(parts[index])
