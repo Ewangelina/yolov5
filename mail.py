@@ -1,14 +1,15 @@
 import smtplib
 
 already_sent = False
+sender = 'projekt.test17@gmail.com'
+password = 'armflaxmppnjnggx'
+recipient = None
 
-def send_email(subject, body, recipient):
+def send_email(subject, body):
     global already_sent
     if (already_sent):
         return
-
-    sender = 'projekt.test17@gmail.com'
-    password = 'armflaxmppnjnggx'
+  
     message = f'Subject: {subject}\n\n{body}'
 
     try:
@@ -21,3 +22,11 @@ def send_email(subject, body, recipient):
         server.quit()
     except Exception as e:
         print("Wystąpił błąd podczas wysyłania e-maila: ", str(e))
+
+def set_recipient(new_recipient):
+    global recipient, already_sent
+    
+    if new_recipient == None:
+        already_sent = True
+    else:
+        recipient = new_recipient
