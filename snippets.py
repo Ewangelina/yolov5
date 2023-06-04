@@ -1,6 +1,6 @@
 current_snippet = None
 SNIPPETS_FOLDER_NAME = "output"
-output_video_fps = 3 #video CHANGE
+output_video_fps = 4
 
 from datetime import datetime
 import cv2
