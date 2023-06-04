@@ -3,9 +3,6 @@ import time
 file = None
 start_time = None
 sum_no_motorcycles = 0
-prev_no_motorcycles = 0
-prev_prev_no_motorcycles = 0
-frames_of_same_detection = 0
 max_no_motorcycles_in_current_detection = 0
 
 def time_to_string(seconds):
@@ -30,7 +27,8 @@ def mpm(seconds, motorcycles):
     return str(motorcycles / minutes)
 
 def motorcycles_exited_action():
-    global max_no_motorcycles_in_current_detection
+    global max_no_motorcycles_in_current_detection, sum_no_motorcycles
+    sum_no_motorcycles += max_no_motorcycles_in_current_detection
     line = time.strftime("%d.%m %H:%M:%S", time.localtime()) + " Noted at least " + str(max_no_motorcycles_in_current_detection) + " motorcycle(s)\n"
     file.write(line)
     max_no_motorcycles_in_current_detection = 0
@@ -47,7 +45,7 @@ def end_statistics():
     file.close()
 
 def analise_line(textLine): #returns True if there are motorcycles in frame
-    global sum_no_motorcycles, prev_no_motorcycles, prev_prev_no_motorcycles, frames_of_same_detection, max_no_motorcycles_in_current_detection
+    global max_no_motorcycles_in_current_detection
     
     parts = textLine.split(" ")
     index = -1
@@ -57,33 +55,10 @@ def analise_line(textLine): #returns True if there are motorcycles in frame
             break
         
     if index == -1: #No motorcycles
-        if prev_no_motorcycles == 0:
-            frames_of_same_detection += 1
-        else:
-            prev_prev_no_motorcycles = prev_no_motorcycles
-            prev_no_motorcycles = 0
         return False
     else: #there are motorcycles
         no_motorcycles = int(parts[index])
-        if prev_no_motorcycles == no_motorcycles:
-            frames_of_same_detection += 1
-        elif prev_no_motorcycles < no_motorcycles: #more motorcycles
-            if max_no_motorcycles_in_current_detection < no_motorcycles:
+        if max_no_motorcycles_in_current_detection < no_motorcycles:
                 max_no_motorcycles_in_current_detection = no_motorcycles
-
-            if prev_no_motorcycles == no_motorcycles - 1 and frames_of_same_detection <= 2: #motorcycle returned
-                frames_of_same_detection += 1
-            else:
-                if (not frames_of_same_detection == 0) or prev_no_motorcycles == 0:
-                    sum_no_motorcycles += no_motorcycles - prev_no_motorcycles
-                
-                prev_prev_no_motorcycles = prev_no_motorcycles
-                prev_no_motorcycles = no_motorcycles
-                frames_of_same_detection = 0
-        else: #less motorcycles
-            frames_of_same_detection = 0
-            prev_prev_no_motorcycles = prev_no_motorcycles
-            prev_no_motorcycles = no_motorcycles
-
         return True
             
