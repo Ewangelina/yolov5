@@ -6,18 +6,18 @@ import detect
 import os
 
 while True:
-	actions = input("Podaj numerał wybranego profilu akcji\n")
+	actions = input("Input the selected action profile numeral: \n")
 	try:
 		if int(actions) >= 0:
 			actions = int(actions)
 			break
 		else:
-			print("Podaj poprawny numerał")
+			print("Incorrect action numeral inputed")
 	except Exception as e:
-        	print("Podaj poprawny numerał")
+        	print("Incorrect action numeral inputed")
 
 if actions % 5 == 0:
-	email = input("Podaj adres e-mail\n")
+	email = input("Input e-mail address:\n")
 	mail.set_recipient(email)
 
 	
