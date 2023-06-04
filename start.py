@@ -12,12 +12,12 @@ def from_file():
 		if int(actions) >= 0:
 			actions = int(actions)
 			if actions % 5 == 0:
-				email = input("Input e-mail address:\n")
+				email = f.readline()
 				mail.set_recipient(email)
 			
 			statistics.init_statistics()
 			action.set_option(actions)
-
+			f.close()
 			print("Program starting, please wait")
 			detect.start()
 		else:
