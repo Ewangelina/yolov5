@@ -47,7 +47,7 @@ def from_user():
 	detect.start()
 
 actions = input("Input the selected action profile numeral: \n")
-if actions = "":
+if actions == "":
 	from_file()
 else:
 	from_user()
