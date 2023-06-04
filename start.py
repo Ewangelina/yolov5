@@ -25,7 +25,7 @@ def from_file():
 	except:
 		print("ERROR in values file")
 		
-def from_user():
+def from_user(actions):
 	while True:
 		try:
 			if int(actions) >= 0:
@@ -33,8 +33,10 @@ def from_user():
 				break
 			else:
 				print("Incorrect action numeral inputed")
+				actions = input("Input the selected action profile numeral: \n")
 		except:
 			print("Incorrect action numeral inputed")
+			actions = input("Input the selected action profile numeral: \n")
 	
 	if actions % 5 == 0:
 		email = input("Input e-mail address:\n")
@@ -50,4 +52,4 @@ actions = input("Input the selected action profile numeral: \n")
 if actions == "":
 	from_file()
 else:
-	from_user()
+	from_user(actions)
