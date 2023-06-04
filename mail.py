@@ -17,11 +17,11 @@ def send_email(subject, body):
         server.starttls()
         server.login(sender, password)
         server.sendmail(sender, recipient, message)
-        print("E-mail został wysłany!")
+        print("The e-mail was succesfully sent!")
         already_sent = True
         server.quit()
     except Exception as e:
-        print("Wystąpił błąd podczas wysyłania e-maila: ", str(e))
+        print("The following error ocurred whilst sending the e-mail: ", str(e))
 
 def set_recipient(new_recipient):
     global recipient, already_sent
