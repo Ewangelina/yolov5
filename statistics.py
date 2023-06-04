@@ -55,11 +55,6 @@ def analise_line(textLine): #returns True if there are motorcycles in frame
             break
         
     if index == -1: #No motorcycles
-        if prev_no_motorcycles == 0:
-            frames_of_same_detection += 1
-        else:
-            prev_prev_no_motorcycles = prev_no_motorcycles
-            prev_no_motorcycles = 0
         return False
     else: #there are motorcycles
         if max_no_motorcycles_in_current_detection < no_motorcycles:
