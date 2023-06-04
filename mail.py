@@ -1,8 +1,12 @@
+#E-mail adress the mesage will be sent to
+recipient = "235842@edu.p.lodz.pl"
+
+
 import smtplib
 
 already_sent = False
 
-def send_email(subject, body, recipient):
+def send_email(subject, body):
     global already_sent
     if (already_sent):
         return
@@ -16,8 +20,8 @@ def send_email(subject, body, recipient):
         server.starttls()
         server.login(sender, password)
         server.sendmail(sender, recipient, message)
-        print("E-mail został wysłany!")
+        print("The e-mail was succesfully sent!")
         already_sent = True
         server.quit()
     except Exception as e:
-        print("Wystąpił błąd podczas wysyłania e-maila: ", str(e))
+        print("The following error ocurred whilst sending the e-mail: ", str(e))

@@ -1,5 +1,6 @@
 import mail
 import snippets
+import statistics
 
 from datetime import datetime
 
@@ -9,10 +10,6 @@ option = 0
 def set_option(new_option):
     global option
     option = new_option
-
-def analise_line(textLine):
-    if "motorcycle" in textLine:
-        return True
 
 def continue_action(frame):
     if option % 3 == 0: #make snippet
@@ -32,8 +29,8 @@ def take_action(frame):
 
     if option % 5 == 0: #send email
         now = datetime.now()
-        body = now.strftime("%d.%m.%Y at %H:%M:%S") + "a motorcycle was detected"
-        mail.send_email("Motorcycle detection", body, "235842@edu.p.lodz.pl")
+        body = now.strftime("%d.%m.%Y at %H:%M:%S") + " a motorcycle was detected"
+        mail.send_email("Motorcycle detection", body)
 
 def end_action():
     global taking_action
@@ -43,3 +40,5 @@ def end_action():
     taking_action = False
     if option % 3 == 0: #make snippet
         snippets.end_snippet()
+
+    statistics.motorcycles_exited_action()

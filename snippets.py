@@ -1,5 +1,6 @@
 current_snippet = None
 SNIPPETS_FOLDER_NAME = "output"
+output_video_fps = 3
 
 from datetime import datetime
 import cv2
@@ -24,7 +25,6 @@ def make_snippet(frame_of_video):
     if current_snippet is None:
         h = len(frame_of_video[0])
         w = len(frame_of_video[0][0])
-        output_video_fps = 3 #video CHANGE
         
         current_snippet = snippet_maker(SNIPPETS_FOLDER_NAME, cv2.VideoWriter_fourcc(*'XVID'), w, h, output_video_fps)
     current_snippet.write(numpy.asarray(frame_of_video[0]))
