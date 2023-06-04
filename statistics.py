@@ -57,6 +57,7 @@ def analise_line(textLine): #returns True if there are motorcycles in frame
     if index == -1: #No motorcycles
         return False
     else: #there are motorcycles
+        no_motorcycles = int(parts[index])
         if max_no_motorcycles_in_current_detection < no_motorcycles:
             max_no_motorcycles_in_current_detection = no_motorcycles
         return True
